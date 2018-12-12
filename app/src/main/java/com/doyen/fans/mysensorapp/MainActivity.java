@@ -21,23 +21,19 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
     public static final String TAG = "MainActivity";
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String KEY_SAVEDSTEPS = "keySavedSteps";
 
     SensorManager mSensorManager;
     Sensor mCountSensor;
     Sensor mAccelerometerSensor;
-
-    TextView tvStepCount;
-    TextView xAccelValue, yAccelValue, zAccelValue;
     Ringtone alarm ;
 
-    boolean running = false;
-    private TriggerEventListener mTriggerEventListener;
-    Button btnUpdate;
+    TextView stepCount;
+    TextView xAccelValue, yAccelValue, zAccelValue;
     Button btnResetSteps;
 
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String KEY_SAVEDSTEPS = "keySavedSteps";
-
+    boolean running = false;
     int stepsOfEvent;  //hardware counter of steps since last device power cycle
     int stepsOfSaved;  //steps in the shared pref, since last app button reset
     int stepsCurrent = 0;  //stepsOfEvent - stepsOfSaved
@@ -49,10 +45,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mCountSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
 
-        tvStepCount = findViewById(R.id.stepCounter);
-        tvStepCount.setText("0");
+        //step counter
+        mCountSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        mSensorManager.registerListener(this, mCountSensor, SensorManager.SENSOR_DELAY_UI);
+        stepCount = findViewById(R.id.tv_stepCounter);
+        stepCount.setText("0");
         stepsOfSaved = loadExistingSteps();
 
         btnResetSteps = findViewById(R.id.btnStepsReset);
@@ -62,14 +60,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 //reset the stepcount to 0
                 stepsOfSaved += stepsCurrent;
                 saveExistingSteps(stepsOfSaved);
-                tvStepCount.setText("0");
+                stepCount.setText("0");
             }
         });
 
+        //accelerometer
         xAccelValue = findViewById(R.id.tv_accelerometer_x);
         yAccelValue = findViewById(R.id.tv_accelerometer_y);
         zAccelValue = findViewById(R.id.tv_accelerometer_z);
-        //accelerometer
+
         mAccelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(MainActivity.this, mAccelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         alarm = RingtoneManager.getRingtone(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM) );
@@ -90,22 +89,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-
         running = true;
-        if(mCountSensor!=null){
-            mSensorManager.registerListener(this, mCountSensor, SensorManager.SENSOR_DELAY_UI);
-        }else{
-            Toast.makeText(MainActivity.this,"Sensor not found!", Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         running = false;
-
-        //unregister? the hardhware will stop counting. so don;t do it here.
     }
 
     @Override
@@ -130,11 +120,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                zAccelValue.setTextColor(Color.BLACK);
                alarm.stop();
            }
-       }else {
+       }else if (event.sensor.getName().contains("pedometer"))
+       {
            if (running) {
                stepsOfEvent = (int) event.values[0];
                stepsCurrent = stepsOfEvent - stepsOfSaved;
-               tvStepCount.setText(stepsCurrent + "");
+               stepCount.setText(stepsCurrent + "");
            }
        }
     }

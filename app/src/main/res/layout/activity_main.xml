@@ -10,7 +10,6 @@
 
 
     <TextView
-        android:id="@+id/tv_steps_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Steps Count"
@@ -19,11 +18,10 @@
         />
 
     <TextView
-        android:id="@+id/stepCounter"
+        android:id="@+id/tv_stepCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        app:layout_constraintLeft_toRightOf="@+id/tv_steps_count"
         android:layout_margin="10dp"
         android:textSize="16dp"
         android:textStyle="bold"
@@ -34,8 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reset Steps"
-        app:layout_constraintLeft_toRightOf="@+id/stepCounter"
-
         />
 
     <TextView
@@ -46,7 +42,6 @@
         android:textSize="16dp"
         android:textStyle="bold"
         />
-
 
     <TextView
         android:id="@+id/tv_accelerometer_x"
