@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/tv_steps_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Steps Count"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/stepCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintLeft_toRightOf="@+id/tv_steps_count"
+        android:layout_margin="10dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
+
+    <Button
+        android:id="@+id/btnStepsReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Steps"
+        app:layout_constraintLeft_toRightOf="@+id/stepCounter"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Acceleration"
+        android:layout_marginTop="20dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_accelerometer_x"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="x"
+        android:layout_margin="10dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/tv_accelerometer_y"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="y"
+        android:layout_margin="10dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/tv_accelerometer_z"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="z"
+        android:layout_margin="10dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
+
+</LinearLayout>
